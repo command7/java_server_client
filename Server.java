@@ -1,16 +1,30 @@
 import java.io.*;
-import 
+import java.net.*;
 public class Server
 {
    public Server()
    {
-      ServerSocket server = new ServerSocket(80);
-      Socket client = server.accept();
-      BufferedReader clientRequest = new BufferedReader(new InputStreamReader(client.getInputStream()));
-      PrintWriter clientResponse = new PrintWriter(new getOutputStream());
-      String response = "";
-      String msg = clientRequest.readLine();
-      response += msg;
-      clientResponse.println(response); 
+      try
+      {
+         ServerSocket server = new ServerSocket(80);
+         Socket clientCon = server.accept();
+         BufferedReader clientRequest = new BufferedReader(new InputStreamReader(clientCon.getInputStream()));
+         PrintWriter clientResponse = new PrintWriter(clientCon.getOutputStream());
+         String response = "";
+         while(true)
+         {
+            String msg = clientRequest.readLine();
+            if (msg.equals("."))
+            {
+               clientResponse.println(response);
+               break;
+            }
+            else
+            {
+               response += msg;
+            }
+         }
+      }
+      catch (Exception e) {} 
    }
 }
