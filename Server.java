@@ -8,30 +8,34 @@ public class Server
       {
          ServerSocket server = new ServerSocket(1234);
          System.out.println("Listening for input requests");
-         Socket clientCon = server.accept();
-         BufferedReader clientRequest = new BufferedReader(new InputStreamReader(clientCon.getInputStream()));
-         PrintWriter clientResponse = new PrintWriter(clientCon.getOutputStream());
-         String response = "";
          while(true)
          {
-            String msg = clientRequest.readLine();
-            if (msg.equals("."))
+            Socket clientCon = server.accept();
+            BufferedReader clientRequest = new BufferedReader(new InputStreamReader(clientCon.getInputStream()));
+            PrintWriter clientResponse = new PrintWriter(clientCon.getOutputStream());
+            String response = "";
+            while(true)
             {
-               clientResponse.println(response);
-               clientResponse.flush();
-               break;
+               String msg = clientRequest.readLine();
+               if (msg.equals("."))
+               {
+                  clientResponse.println(response);
+                  clientResponse.flush();
+                  break;
+               }
+               else
+               {
+                  response += msg;
+               }
             }
-            else
-            {
-               response += msg;
-            }
+            clientRequest.close();
+            clientResponse.close();
+            clientCon.close();
          }
-         clientRequest.close();
-         clientResponse.close();
-         clientCon.close();
       }
-      catch (Exception e) {} 
+      catch (Exception e) {}
    }
+
    public static void main(String [] args)
    {
       Server test = new Server();
