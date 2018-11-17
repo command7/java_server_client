@@ -8,7 +8,7 @@ public class Client
       Scanner input = new Scanner(System.in);
       try
       {
-         Socket serverCon = new Socket("192.168.1.4", 1234);
+         Socket serverCon = new Socket("localhost", 1234);
          BufferedReader serverResponse = new BufferedReader(new InputStreamReader(serverCon.getInputStream()));
          PrintWriter clientRequest = new PrintWriter(serverCon.getOutputStream());
          while (true)
@@ -23,6 +23,9 @@ public class Client
                break;
             }
          }
+         clientRequest.close();
+         serverResponse.close();
+         serverCon.close();
       }
       catch (Exception e) {}
 

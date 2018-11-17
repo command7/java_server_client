@@ -15,12 +15,10 @@ public class Server
          while(true)
          {
             String msg = clientRequest.readLine();
-            System.out.println(msg);
             if (msg.equals("."))
             {
                clientResponse.println(response);
                clientResponse.flush();
-               clientCon.close();
                break;
             }
             else
@@ -28,6 +26,9 @@ public class Server
                response += msg;
             }
          }
+         clientRequest.close();
+         clientResponse.close();
+         clientCon.close();
       }
       catch (Exception e) {} 
    }
