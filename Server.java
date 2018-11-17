@@ -1,6 +1,8 @@
-public class ServerClient
+import java.io.*;
+import 
+public class Server
 {
-   public ServerClient()
+   public Server()
    {
       ServerSocket server = new ServerSocket(80);
       Socket client = server.accept();
