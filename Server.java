@@ -19,6 +19,8 @@ public class Server
             if (msg.equals("."))
             {
                clientResponse.println(response);
+               clientResponse.flush();
+               clientCon.close();
                break;
             }
             else
