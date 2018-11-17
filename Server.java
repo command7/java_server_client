@@ -6,7 +6,8 @@ public class Server
    {
       try
       {
-         ServerSocket server = new ServerSocket(80);
+         ServerSocket server = new ServerSocket(1234);
+         System.out.println("Listening for input requests");
          Socket clientCon = server.accept();
          BufferedReader clientRequest = new BufferedReader(new InputStreamReader(clientCon.getInputStream()));
          PrintWriter clientResponse = new PrintWriter(clientCon.getOutputStream());
@@ -14,6 +15,7 @@ public class Server
          while(true)
          {
             String msg = clientRequest.readLine();
+            System.out.println(msg);
             if (msg.equals("."))
             {
                clientResponse.println(response);
@@ -26,5 +28,9 @@ public class Server
          }
       }
       catch (Exception e) {} 
+   }
+   public static void main(String [] args)
+   {
+      Server test = new Server();
    }
 }
