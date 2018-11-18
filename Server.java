@@ -12,22 +12,23 @@ public class Server
          {
             Socket clientCon = server.accept();
             BufferedReader clientRequest = new BufferedReader(new InputStreamReader(clientCon.getInputStream()));
-            PrintWriter clientResponse = new PrintWriter(clientCon.getOutputStream());
+            PrintWriter clientResponse = new PrintWriter(new OutputStreamWriter(clientCon.getOutputStream()));
             String response = "";
             while(true)
             {
                String msg = clientRequest.readLine();
                if (msg.equals("."))
                {
-                  clientResponse.println(response);
-                  clientResponse.flush();
+                  clientResponse.write(response);
+                  System.out.println(response);
                   break;
                }
                else
                {
-                  response += msg;
+                  response = response + msg + "\n";
                }
             }
+            clientResponse.flush();
             clientRequest.close();
             clientResponse.close();
             clientCon.close();

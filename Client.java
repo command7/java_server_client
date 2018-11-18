@@ -11,14 +11,19 @@ public class Client
          Socket serverCon = new Socket("localhost", 1234);
          BufferedReader serverResponse = new BufferedReader(new InputStreamReader(serverCon.getInputStream()));
          PrintWriter clientRequest = new PrintWriter(serverCon.getOutputStream());
+         String output = "";
          while (true)
          {
             String msg = input.nextLine();
+            String temp;
             clientRequest.println(msg);
             clientRequest.flush();
             if (msg.equals("."))
             {
-               String output = serverResponse.readLine();
+               while((temp = serverResponse.readLine()) != null)
+               {
+                  output = output + temp + "\n";
+               }
                System.out.println(output);
                break;
             }
