@@ -12,17 +12,18 @@ public class Client
          BufferedReader serverResponse = new BufferedReader(new InputStreamReader(serverCon.getInputStream()));
          PrintWriter clientRequest = new PrintWriter(serverCon.getOutputStream());
          String output = "";
+         System.out.println("Enter datas to be sent to server");
          while (true)
          {
             String msg = input.nextLine();
-            String temp;
+            String line;
             clientRequest.println(msg);
             clientRequest.flush();
             if (msg.equals("."))
             {
-               while((temp = serverResponse.readLine()) != null)
+               while((line = serverResponse.readLine()) != null)
                {
-                  output = output + temp + "\n";
+                  output = output + line + "\n";
                }
                System.out.println(output);
                break;

@@ -7,9 +7,9 @@ public class Server
       try
       {
          ServerSocket server = new ServerSocket(1234);
-         System.out.println("Listening for input requests");
          while(true)
          {
+            System.out.println("Listening for input requests");
             Socket clientCon = server.accept();
             BufferedReader clientRequest = new BufferedReader(new InputStreamReader(clientCon.getInputStream()));
             PrintWriter clientResponse = new PrintWriter(new OutputStreamWriter(clientCon.getOutputStream()));
@@ -20,7 +20,7 @@ public class Server
                if (msg.equals("."))
                {
                   clientResponse.write(response);
-                  System.out.println(response);
+                  System.out.println("Reply to client successful");
                   break;
                }
                else
