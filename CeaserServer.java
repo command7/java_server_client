@@ -37,22 +37,28 @@ public class CeaserServer
             {
                BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
                PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
-               String response = "";
-               while(true)
+               String inputCommand = clientRequest.readLine();
+               System.out.println(inputCommand);
+               String message;
+               if (inputCommand.equals("ENCRYPT"))
                {
-                  String msg = clientRequest.readLine();
-                  if (msg.equals("."))
-                  {
-                     serverResponse.write(response);
-                     System.out.println("Reply to client successful");
-                     break;
-                  }
-                  else
-                  {
-                     response = response + msg + "\n";
-                  }
+                  serverResponse.println("OK");
+                  serverResponse.flush();
+                  message = clientRequest.readLine();
+                  System.out.println("Msg to be encrypted: " + message);
+                  serverResponse.println("Working on encryption");
+                  serverResponse.flush();
                }
-               serverResponse.flush();
+               else if (inputCommand.equals("DECRYPT"))
+               {
+                  message = clientRequest.readLine();
+                  System.out.println("Msg to be decrypted: " + message);
+               }
+               else
+               {
+                  System.out.println("Invalid command");
+               }
+               //serverResponse.flush();
                clientRequest.close();
                serverResponse.close();
                serverSocket.close();
