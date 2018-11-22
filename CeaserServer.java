@@ -40,14 +40,15 @@ public class CeaserServer
             }
          }
          shiftNumber = indexOfChar + 3;
-//          if(shiftNumber < 26)
-//          {
+         if(shiftNumber < 26)
+         {
             cipher += alphabets[shiftNumber];
-//          }
-         // else
-//          {
-//             shiftNumber = shiftNumber%26;
-//          }
+         }
+         else
+         {
+            shiftNumber = shiftNumber%26;
+            cipher += alphabets[shiftNumber];
+         }
       }
       return cipher;
    }
