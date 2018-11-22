@@ -3,10 +3,11 @@ import java.net.*;
 public class CeaserServer
 {
    String [] alphabets = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
-   int shiftKey = 3;
+   private int shiftKey;
    private ServerSocket server;
-   public CeaserServer()
+   public CeaserServer(int _shiftKey)
    {
+      this.shiftKey = _shiftKey;
       startServer();
    }
 
@@ -45,7 +46,7 @@ public class CeaserServer
                break;
             }
          }
-         shiftNumber = indexOfChar + 3;
+         shiftNumber = indexOfChar + shiftKey;
          if(shiftNumber < 26)
          {
             cipher += alphabets[shiftNumber];
@@ -80,14 +81,14 @@ public class CeaserServer
                break;
             }
          }
-         if(indexOfChar >= 3)
+         if(indexOfChar >= shiftKey)
          {
-            shiftNumber = indexOfChar - 3;
+            shiftNumber = indexOfChar - shiftKey;
             msg += alphabets[shiftNumber];
          }
          else
          {
-            shiftNumber = indexOfChar - 3;
+            shiftNumber = indexOfChar - shiftKey;
             shiftNumber = shiftNumber + 26;
             msg += alphabets[shiftNumber];
          }
@@ -156,6 +157,25 @@ public class CeaserServer
    }   
    public static void main(String [] args)
    {
-      CeaserServer test = new CeaserServer();
+      try
+      {
+         int key = Integer.parseInt(args[0]);
+         if(args.length == 0)
+         {
+            CeaserServer test = new CeaserServer(3);
+         }
+         else if(key > 0 && key < 26)
+         {
+            CeaserServer test = new CeaserServer(key);
+         }
+         else
+         {
+            System.out.println("Key should be between 1 and 25 inclusive");
+         }
+      }
+      catch (NumberFormatException nfe)
+      {
+         System.out.println("Enter a number between 1 and 25");
+      }
    }
 }
