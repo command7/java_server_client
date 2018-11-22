@@ -114,8 +114,6 @@ public class CeaserServer
                String inputCommand = clientRequest.readLine();
                System.out.println("Client Request: " + inputCommand);
                String input;
-               String message = "";
-               String cipher = "";
                String temp;
                if (inputCommand.equals("ENCRYPT"))
                {
@@ -135,9 +133,24 @@ public class CeaserServer
                   serverResponse.flush();
                   while((input = clientRequest.readLine()) != null)
                   {
+                     // temp = clientRequest.readLine();
+//                      serverResponse.println(temp);
+//                      serverResponse.flush();
+//                      System.out.println(temp);
+                     System.out.println(input);
+                     System.out.println(decryptText(input));
                      serverResponse.println(decryptText(input));
                      serverResponse.flush();
+                     //System.out.println(input);
                   }
+                  // temp = clientRequest.readLine();
+//                   serverResponse.println(temp);
+//                   serverResponse.flush();
+//                   System.out.println(temp);
+//                   input = clientRequest.readLine();
+//                   serverResponse.println(input);
+//                   serverResponse.flush();
+//                   System.out.println(input);
                }
                else
                {
@@ -145,7 +158,6 @@ public class CeaserServer
                   serverResponse.println("Invalid Command");
                   serverResponse.flush();
                }
-               //serverResponse.flush();
                clientRequest.close();
                serverResponse.close();
                serverSocket.close();
