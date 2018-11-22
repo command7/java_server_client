@@ -15,12 +15,85 @@ public class CeaserServer
       {
          ServerSocket server = new ServerSocket(16789);
          while(true)
-         {
+         { 
             Socket serverSocket = server.accept();
-            new ServerThread(serverSocket).start();
+            //serverSocket = server.accept();
+//             while(true)
+//             {
+//                try
+//                {
+                  BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+                  PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
+                  String inputCommand = clientRequest.readLine();
+                  System.out.println("Client Request: " + inputCommand);
+                  String input;
+                  String temp;
+                  if (inputCommand.equals("ENCRYPT"))
+                  {
+                     System.out.println("Server Response: OK");
+                     serverResponse.println("OK");
+                     serverResponse.flush();
+                     while((input = clientRequest.readLine()) != null)
+                     {
+                        serverResponse.println(encryptText(input));
+                        serverResponse.flush();
+                     }
+                  }
+                  else if (inputCommand.equals("DECRYPT"))
+                  {
+                     System.out.println("Server Response: OK");
+                     serverResponse.println("OK");
+                     serverResponse.flush();
+                     while((input = clientRequest.readLine()) != null)
+                     {
+                        // if(input.equals(""))
+   //                      {
+   //                         serverResponse.println("");
+   //                         serverResponse.flush();
+   //                         continue;
+   //                      }
+   //                      else
+                        //{
+                           System.out.println(input);
+                           //System.out.println(decryptText(input));
+                           String decrypt = decryptText(input);
+                           System.out.println(decrypt);
+                           serverResponse.println(decrypt);
+                           serverResponse.flush();
+                        //}
+                        //System.out.println(input);
+                     }
+                  }
+                  else
+                  {
+                     System.out.println("Server Response: Invalid command");
+                     serverResponse.println("Invalid Command");
+                     serverResponse.flush();
+                  }
+                  clientRequest.close();
+                  serverResponse.close();
+                  serverSocket.close();
+ //               }
+//                catch (Exception e) {
+//                   e.printStackTrace();
+//                }
+//            }
+//          try{
+//          serverSocket.close();
+//          }
+//          catch (Exception e) {}
+
+            
          }
       }
       catch (Exception ex) {}
+      // try
+//       {
+//          Socket serverSocket;
+//          new ServerThread(serverSocket).start();
+// 
+//       }
+//       catch (Exception ex) {}
    }
 
    public String encryptText(String _msg)
@@ -79,15 +152,14 @@ public class CeaserServer
                break;
             }
          }
-         //System.out.println("Current Index: " + indexOfChar);
-         shiftNumber = indexOfChar - 3;
-         //System.out.println("Shifted Index: " + shiftNumber);
-         if(shiftNumber >= 3)
+         if(indexOfChar >= 3)
          {
+            shiftNumber = indexOfChar - 3;
             msg += alphabets[shiftNumber];
          }
          else
          {
+            shiftNumber = indexOfChar - 3;
             shiftNumber = shiftNumber + 26;
             msg += alphabets[shiftNumber];
          }
@@ -105,6 +177,7 @@ public class CeaserServer
 
       public void run()
       {
+         //serverSocket = server.accept();
          while(true)
          {
             try
@@ -133,24 +206,23 @@ public class CeaserServer
                   serverResponse.flush();
                   while((input = clientRequest.readLine()) != null)
                   {
-                     // temp = clientRequest.readLine();
-//                      serverResponse.println(temp);
-//                      serverResponse.flush();
-//                      System.out.println(temp);
-                     System.out.println(input);
-                     System.out.println(decryptText(input));
-                     serverResponse.println(decryptText(input));
-                     serverResponse.flush();
+                     // if(input.equals(""))
+//                      {
+//                         serverResponse.println("");
+//                         serverResponse.flush();
+//                         continue;
+//                      }
+//                      else
+                     //{
+                        System.out.println(input);
+                        //System.out.println(decryptText(input));
+                        String decrypt = decryptText(input);
+                        System.out.println(decrypt);
+                        serverResponse.println(decrypt);
+                        serverResponse.flush();
+                     //}
                      //System.out.println(input);
                   }
-                  // temp = clientRequest.readLine();
-//                   serverResponse.println(temp);
-//                   serverResponse.flush();
-//                   System.out.println(temp);
-//                   input = clientRequest.readLine();
-//                   serverResponse.println(input);
-//                   serverResponse.flush();
-//                   System.out.println(input);
                }
                else
                {
@@ -160,10 +232,17 @@ public class CeaserServer
                }
                clientRequest.close();
                serverResponse.close();
-               serverSocket.close();
+               break;
+               //serverSocket.close();
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+               e.printStackTrace();
+            }
          }
+         try{
+         serverSocket.close();
+         }
+         catch (Exception e) {}
       }
 
 
