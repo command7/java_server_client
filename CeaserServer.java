@@ -29,6 +29,11 @@ public class CeaserServer
       String cipher = "";
       for(int index=0; index<msg.length(); index++)
       {
+         if (String.valueOf(msg.charAt(index)).equals(" "))
+         {
+            cipher += " ";
+            continue;
+         }
          int shiftNumber = -1;
          int indexOfChar = -1;
          for(int i=0; i < alphabets.length; i++)
@@ -59,6 +64,11 @@ public class CeaserServer
       String msg = "";
       for(int index=0; index<cipher.length(); index++)
       {
+         if (String.valueOf(cipher.charAt(index)).equals(" "))
+         {
+            msg += " ";
+            continue;
+         }
          int shiftNumber = -1;
          int indexOfChar = -1;
          for(int i=0; i < alphabets.length; i++)
