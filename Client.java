@@ -8,7 +8,7 @@ public class Client
       Scanner input = new Scanner(System.in);
       try
       {
-         Socket serverCon = new Socket("localhost", 1234);
+         Socket serverCon = new Socket("localhost", 16789);
          BufferedReader serverResponse = new BufferedReader(new InputStreamReader(serverCon.getInputStream()));
          PrintWriter clientRequest = new PrintWriter(serverCon.getOutputStream());
          String output = "";
