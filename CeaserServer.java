@@ -2,6 +2,8 @@ import java.io.*;
 import java.net.*;
 public class CeaserServer
 {
+   String [] alphabets = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+   int shiftKey = 3;
    public CeaserServer()
    {
       startServer(); 
@@ -19,6 +21,35 @@ public class CeaserServer
          }
       }
       catch (Exception ex) {}
+   }
+   
+   public String encryptText(String _msg)
+   {
+      String msg = _msg.toLowerCase();
+      String cipher = "";
+      for(int index=0; index<msg.length(); index++)
+      {
+         int shiftNumber = -1;
+         int indexOfChar = -1;
+         for(int i=0; i < alphabets.length; i++)
+         {
+            if(String.valueOf(msg.charAt(index)).equals(alphabets[i]))
+            {
+               indexOfChar = i;
+               break;
+            }
+         }
+         shiftNumber = indexOfChar + 3;
+//          if(shiftNumber < 26)
+//          {
+            cipher += alphabets[shiftNumber];
+//          }
+         // else
+//          {
+//             shiftNumber = shiftNumber%26;
+//          }
+      }
+      return cipher;
    }
    
    public class ServerThread extends Thread
@@ -45,12 +76,13 @@ public class CeaserServer
                   serverResponse.println("OK");
                   serverResponse.flush();
                   message = clientRequest.readLine();
-                  System.out.println("Msg to be encrypted: " + message);
-                  serverResponse.println("Working on encryption");
+                  serverResponse.println(encryptText(message));
                   serverResponse.flush();
                }
                else if (inputCommand.equals("DECRYPT"))
                {
+                  serverResponse.println("OK");
+                  serverResponse.flush();
                   message = clientRequest.readLine();
                   System.out.println("Msg to be decrypted: " + message);
                }
@@ -65,6 +97,12 @@ public class CeaserServer
             }
             catch (Exception e) {}
          }
+      }
+      
+      
+      
+      public void decryptText()
+      {
       }
    }
 
