@@ -6,9 +6,9 @@ public class CeaserServer
    int shiftKey = 3;
    public CeaserServer()
    {
-      startServer(); 
+      startServer();
    }
-   
+
    public void startServer()
    {
       try
@@ -16,13 +16,13 @@ public class CeaserServer
          ServerSocket server = new ServerSocket(16789);
          while(true)
          {
-            Socket serverSocket = server.accept(); 
+            Socket serverSocket = server.accept();
             new ServerThread(serverSocket).start();
          }
       }
       catch (Exception ex) {}
    }
-   
+
    public String encryptText(String _msg)
    {
       String msg = _msg.toLowerCase();
@@ -57,7 +57,7 @@ public class CeaserServer
       }
       return cipher;
    }
-   
+
    public String decryptText(String _cipher)
    {
       String cipher = _cipher.toLowerCase();
@@ -94,7 +94,7 @@ public class CeaserServer
       }
          return msg;
       }
-   
+
    public class ServerThread extends Thread
    {
       private Socket serverSocket;
@@ -102,7 +102,7 @@ public class CeaserServer
       {
          this.serverSocket = _socket;
       }
-      
+
       public void run()
       {
          while(true)
@@ -112,28 +112,38 @@ public class CeaserServer
                BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
                PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
                String inputCommand = clientRequest.readLine();
-               System.out.println(inputCommand);
+               System.out.println("Client Request: " + inputCommand);
                String input;
+               String message = "";
+               String cipher = "";
+               String temp;
                if (inputCommand.equals("ENCRYPT"))
                {
+                  System.out.println("Server Response: OK");
                   serverResponse.println("OK");
                   serverResponse.flush();
-                  input = clientRequest.readLine();
-                  serverResponse.println(encryptText(input));
-                  serverResponse.flush();
+                  while((input = clientRequest.readLine()) != null)
+                  {
+                     serverResponse.println(encryptText(input));
+                     serverResponse.flush();
+                  }
                }
                else if (inputCommand.equals("DECRYPT"))
                {
+                  System.out.println("Server Response: OK");
                   serverResponse.println("OK");
                   serverResponse.flush();
-                  input = clientRequest.readLine();
-                  serverResponse.println(decryptText(input));
-                  serverResponse.flush();
-                  //System.out.println("Msg to be decrypted: " + message);
+                  while((input = clientRequest.readLine()) != null)
+                  {
+                     serverResponse.println(decryptText(input));
+                     serverResponse.flush();
+                  }
                }
                else
                {
-                  System.out.println("Invalid command");
+                  System.out.println("Server Response: Invalid command");
+                  serverResponse.println("Invalid Command");
+                  serverResponse.flush();
                }
                //serverResponse.flush();
                clientRequest.close();
@@ -143,8 +153,8 @@ public class CeaserServer
             catch (Exception e) {}
          }
       }
-         
-      
+
+
    }
 
    public static void main(String [] args)
