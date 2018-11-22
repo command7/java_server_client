@@ -4,6 +4,7 @@ public class CeaserServer
 {
    String [] alphabets = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
    int shiftKey = 3;
+   private ServerSocket server;
    public CeaserServer()
    {
       startServer();
@@ -13,49 +14,11 @@ public class CeaserServer
    {
       try
       {
-         ServerSocket server = new ServerSocket(16789);
+         server = new ServerSocket(16789);
          while(true)
-         { 
+         {
             Socket serverSocket = server.accept();
-            BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-            PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
-            String inputCommand = clientRequest.readLine();
-            System.out.println("Client Request: " + inputCommand);
-            String input;
-            String temp;
-            if (inputCommand.equals("ENCRYPT"))
-            {
-               System.out.println("Server Response: OK");
-               serverResponse.println("OK");
-               serverResponse.flush();
-               while((input = clientRequest.readLine()) != null)
-               {
-                  serverResponse.println(encryptText(input));
-                  serverResponse.flush();
-               }
-            }
-            else if (inputCommand.equals("DECRYPT"))
-            {
-               System.out.println("Server Response: OK");
-               serverResponse.println("OK");
-               serverResponse.flush();
-               while((input = clientRequest.readLine()) != null)
-               {
-                  System.out.println(input);
-                  String decrypt = decryptText(input);
-                  serverResponse.println(decrypt);
-                  serverResponse.flush();
-               }
-            }
-            else
-            {
-               System.out.println("Server Response: Invalid command");
-               serverResponse.println("Invalid Command");
-               serverResponse.flush();
-            }
-            clientRequest.close();
-            serverResponse.close();
-            serverSocket.close(); 
+            new ServerThread(serverSocket).start();
          }
       }
       catch (Exception ex) {}
@@ -131,7 +94,66 @@ public class CeaserServer
       }
          return msg;
       }
+   
+   public class ServerThread extends Thread
+   {
+      private Socket serverSocket;
       
+      public ServerThread(Socket _s)
+      {
+         serverSocket = _s;
+      }
+      
+      public void run()
+      {
+         try
+         {
+            while(true)
+            { 
+               BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+               PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
+               String inputCommand = clientRequest.readLine();
+               System.out.println("Client Request: " + inputCommand);
+               String input;
+               String temp;
+               if (inputCommand.equals("ENCRYPT"))
+               {
+                  System.out.println("Server Response: OK");
+                  serverResponse.println("OK");
+                  serverResponse.flush();
+                  while((input = clientRequest.readLine()) != null)
+                  {
+                     serverResponse.println(encryptText(input));
+                     serverResponse.flush();
+                  }
+               }
+               else if (inputCommand.equals("DECRYPT"))
+               {
+                  System.out.println("Server Response: OK");
+                  serverResponse.println("OK");
+                  serverResponse.flush();
+                  while((input = clientRequest.readLine()) != null)
+                  {
+                     String decrypt = decryptText(input);
+                     serverResponse.println(decrypt);
+                     serverResponse.flush();
+                  }
+               }
+               else
+               {
+                  System.out.println("Server Response: Invalid command");
+                  serverResponse.println("Invalid Command");
+                  serverResponse.flush();
+               }
+               clientRequest.close();
+               serverResponse.close();
+               serverSocket.close(); 
+            }
+         }
+         catch (Exception e) {}
+      }
+
+   }   
    public static void main(String [] args)
    {
       CeaserServer test = new CeaserServer();
