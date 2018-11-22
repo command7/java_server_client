@@ -31,6 +31,7 @@ public class CeaserServer
       String cipher = "";
       for(int index=0; index<msg.length(); index++)
       {
+         boolean isNumber = true;
          if (String.valueOf(msg.charAt(index)).equals(" "))
          {
             cipher += " ";
@@ -43,18 +44,27 @@ public class CeaserServer
             if(String.valueOf(msg.charAt(index)).equals(alphabets[i]))
             {
                indexOfChar = i;
+               isNumber = false;
                break;
             }
          }
-         shiftNumber = indexOfChar + shiftKey;
-         if(shiftNumber < 26)
+         if(isNumber)
          {
-            cipher += alphabets[shiftNumber];
+            cipher += String.valueOf(msg.charAt(index));
+            continue;
          }
          else
          {
-            shiftNumber = shiftNumber%26;
-            cipher += alphabets[shiftNumber];
+            shiftNumber = indexOfChar + shiftKey;
+            if(shiftNumber < 26)
+            {
+               cipher += alphabets[shiftNumber];
+            }
+            else
+            {
+               shiftNumber = shiftNumber%26;
+               cipher += alphabets[shiftNumber];
+            }
          }
       }
       return cipher;
@@ -66,6 +76,7 @@ public class CeaserServer
       String msg = "";
       for(int index=0; index<cipher.length(); index++)
       {
+         boolean isNumber = true;
          if (String.valueOf(cipher.charAt(index)).equals(" "))
          {
             msg += " ";
@@ -78,19 +89,28 @@ public class CeaserServer
             if(String.valueOf(cipher.charAt(index)).equals(alphabets[i]))
             {
                indexOfChar = i;
+               isNumber = false;
                break;
             }
          }
-         if(indexOfChar >= shiftKey)
+         if(isNumber)
          {
-            shiftNumber = indexOfChar - shiftKey;
-            msg += alphabets[shiftNumber];
+            msg += String.valueOf(cipher.charAt(index));
+            continue;
          }
          else
          {
-            shiftNumber = indexOfChar - shiftKey;
-            shiftNumber = shiftNumber + 26;
-            msg += alphabets[shiftNumber];
+            if(indexOfChar >= shiftKey)
+            {
+               shiftNumber = indexOfChar - shiftKey;
+               msg += alphabets[shiftNumber];
+            }
+            else
+            {
+               shiftNumber = indexOfChar - shiftKey;
+               shiftNumber = shiftNumber + 26;
+               msg += alphabets[shiftNumber];
+            }
          }
       }
          return msg;
@@ -159,18 +179,21 @@ public class CeaserServer
    {
       try
       {
-         int key = Integer.parseInt(args[0]);
          if(args.length == 0)
          {
             CeaserServer test = new CeaserServer(3);
          }
-         else if(key > 0 && key < 26)
+         else 
          {
-            CeaserServer test = new CeaserServer(key);
-         }
-         else
-         {
-            System.out.println("Key should be between 1 and 25 inclusive");
+            int key = Integer.parseInt(args[0]);
+            if(key > 0 && key < 26)
+            {
+               CeaserServer test = new CeaserServer(key);
+            }
+            else
+            {
+               System.out.println("Key should be between 1 and 25 inclusive");
+            }
          }
       }
       catch (NumberFormatException nfe)
