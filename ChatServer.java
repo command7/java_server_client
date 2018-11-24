@@ -37,21 +37,28 @@ public class ChatServer
       {
          try
          {
-            while(true)
-            { 
-               BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
-               PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
-               
-               String inputCommand = clientRequest.readLine();
-               System.out.println(inputCommand);
-               serverResponse.println("Received");
-               serverResponse.flush();
-               clientRequest.close();
-               serverResponse.close();
-               serverSocket.close(); 
-            }
+            BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+            PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
+            serverResponse.println("Hello");
+            serverResponse.flush();
+            // while(true)
+//             { 
+//                // String input = clientRequest.readLine();
+// //                System.out.println(input);
+//                serverResponse.println("Hello");
+//                if(input.equals("quit"))
+//                {
+//                   clientRequest.close();
+//                   serverResponse.close();
+//                   serverSocket.close();
+//                }
+//                serverResponse.flush();
+//                //serverSocket.close(); 
+//             }
+
          }
-         catch (Exception e) {}
+         catch (Exception e) {
+         e.printStackTrace();}
       }
 
    }   
