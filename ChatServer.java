@@ -22,6 +22,15 @@ public class ChatServer
       }
       catch (Exception ex) {}
    }
+   
+   public void broadcastMessages(String msg)
+   {
+      for(PrintWriter recipient: broadcaster)
+      {
+         recipient.println(msg);
+         recipient.flush();
+      }
+   }
 
    
    public class ServerThread extends Thread
@@ -39,18 +48,17 @@ public class ChatServer
          {
             BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
             PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
+            broadcaster.add(serverResponse);
             while(true)
             { 
-               String inputMessage = clientRequest.readLine();
-               if(inputMessage.equals("quit"))
+               String message = clientRequest.readLine();
+               if(message.equals("quit"))
                {
                   clientRequest.close();
                   serverResponse.close();
                   serverSocket.close();
                }
-               serverResponse.println(inputMessage);
-               serverResponse.flush();
-               //serverSocket.close(); 
+               broadcastMessages(message);
             }
 
          }

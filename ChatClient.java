@@ -97,8 +97,7 @@ public class ChatClient extends JFrame implements ActionListener
       if(ae.getSource() == sendButton)
       {
          send.println(sendMsg.getText());
-         send.flush();
-         //recvMsg.setText(receive.readLine());           
+         send.flush();         
       }
    }
    
