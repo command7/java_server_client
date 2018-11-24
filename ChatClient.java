@@ -8,8 +8,8 @@ public class ChatClient extends JFrame implements ActionListener
 {
    private BufferedReader receive;
    private PrintWriter send;
-   private JTextArea recvMsg;
-   private JTextArea sendMsg;
+   private JTextArea recvBlock;
+   private JTextArea sendBlock;
    private JButton sendButton;
    private JButton exitButton;
    
@@ -23,12 +23,14 @@ public class ChatClient extends JFrame implements ActionListener
    {
       this.setLayout(new BorderLayout());
       
-      sendMsg = new JTextArea("Send text",10,50);
-      recvMsg = new JTextArea("Recv Text",10,50);
+      recvBlock = new JTextArea("",10,50);
+      sendBlock = new JTextArea("Type message to send",10,50);
+      JScrollPane recvMsg = new JScrollPane(recvBlock);
+      JScrollPane sendMsg = new JScrollPane(sendBlock);
       JPanel textAreas = new JPanel();
       textAreas.setLayout(new GridLayout(0,1));
-      textAreas.add(sendMsg);
       textAreas.add(recvMsg);
+      textAreas.add(sendMsg);
       this.add(textAreas, BorderLayout.CENTER);
       
       JPanel buttons = new JPanel();
@@ -80,7 +82,7 @@ public class ChatClient extends JFrame implements ActionListener
             try
             {
                String input = reader.readLine();
-               recvMsg.append(input + "\n");
+               recvBlock.append(input + "\n");
             }
             catch(Exception e) {
             System.out.println("Reading Exception");}
@@ -96,7 +98,7 @@ public class ChatClient extends JFrame implements ActionListener
       }
       if(ae.getSource() == sendButton)
       {
-         send.println(sendMsg.getText());
+         send.println(sendBlock.getText());
          send.flush();         
       }
    }
