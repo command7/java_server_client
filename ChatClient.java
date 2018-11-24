@@ -24,7 +24,9 @@ public class ChatClient extends JFrame implements ActionListener
       this.setLayout(new BorderLayout());
       
       recvBlock = new JTextArea("",10,50);
+      recvBlock.setBorder(new EtchedBorder());
       sendBlock = new JTextArea("Type message to send",10,50);
+      sendBlock.setBorder(new EtchedBorder());
       JScrollPane recvMsg = new JScrollPane(recvBlock);
       JScrollPane sendMsg = new JScrollPane(sendBlock);
       JPanel textAreas = new JPanel();
