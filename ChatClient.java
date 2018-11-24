@@ -96,6 +96,8 @@ public class ChatClient extends JFrame implements ActionListener
    {
       if(ae.getSource() == exitButton)
       {
+         send.println("quit");
+         send.flush();
          System.exit(1);
       }
       if(ae.getSource() == sendButton)

@@ -14,13 +14,21 @@ public class ChatServer
       try
       {
          ServerSocket server = new ServerSocket(16789);
+         
          while(true)
          {
             Socket serverSocket = server.accept();
+            //System.out.println(serverSocket.getInetAddress());
+            System.out.println("Client IP Address : " + serverSocket.getInetAddress());
             new ServerThread(serverSocket).start();
          }
       }
-      catch (Exception ex) {}
+      catch (BindException be)
+      {
+         System.out.println("Port in use. Bind failed");
+      }
+      catch (Exception ex) {
+      ex.printStackTrace();}
    }
    
    public void broadcastMessages(String msg)
@@ -57,10 +65,11 @@ public class ChatServer
                   clientRequest.close();
                   serverResponse.close();
                   serverSocket.close();
+                  break;
                }
                broadcastMessages(message);
             }
-
+            System.out.println("Client " + serverSocket.getInetAddress() + " disconnected");
          }
          catch (Exception e) {
          e.printStackTrace();}
