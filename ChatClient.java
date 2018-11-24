@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.border.*;
-public class ChatClient extends JFrame //implements ActionListener
+public class ChatClient extends JFrame implements ActionListener
 {
    private BufferedReader receive;
    private PrintWriter send;
@@ -38,8 +38,8 @@ public class ChatClient extends JFrame //implements ActionListener
       exitButton = new JButton("Exit");
       buttons.add(sendButton);
       buttons.add(exitButton);
-      //sendButton.addActionListener(this);
-      //exitButton.addActionListener(this);
+      sendButton.addActionListener(this);
+      exitButton.addActionListener(this);
       this.add(buttons, BorderLayout.SOUTH);
       
       this.setTitle("Chat screen");
@@ -55,8 +55,8 @@ public class ChatClient extends JFrame //implements ActionListener
       try
       {
          Socket s = new Socket("localhost", 16789);
-         BufferedReader receive = new BufferedReader(new InputStreamReader(s.getInputStream()));
-         PrintWriter send = new PrintWriter(s.getOutputStream());
+         receive = new BufferedReader(new InputStreamReader(s.getInputStream()));
+         send = new PrintWriter(s.getOutputStream());
          Receiver recv = new Receiver(receive);
          recv.start();
       }
@@ -79,9 +79,8 @@ public class ChatClient extends JFrame //implements ActionListener
          {
             try
             {
-               System.out.println("Entered Run Loop");
                String input = reader.readLine();
-               System.out.println(input);
+               recvMsg.append(input + "\n");
             }
             catch(Exception e) {
             System.out.println("Reading Exception");}
@@ -89,38 +88,19 @@ public class ChatClient extends JFrame //implements ActionListener
       }
    }
    
-   // public void actionPerformed(ActionEvent ae)
-//    {
-//       try
-//       {
-//          Socket s = new Socket("localhost", 16789);
-//          BufferedReader receive = new BufferedReader(new InputStreamReader(s.getInputStream()));
-//          PrintWriter send = new PrintWriter(s.getOutputStream());
-//       
-//          //new Receiver(receive).start();
-//          if(ae.getSource() == exitButton)
-//          {
-//             System.exit(1);
-//          }
-//          if(ae.getSource() == sendButton)
-//          {
-//             send.println(sendMsg.getText());
-//             send.flush();
-//             //recvMsg.setText(receive.readLine());           
-//          }
-//       }
-//       catch(UnknownHostException uhe) {
-// 			recvMsg.setText("Unable to connect to host.");
-// 			return;
-// 		}
-// 		catch(IOException ie) {
-// 			recvMsg.setText("IOException communicating with host.");
-// 			return;
-// 	   }
-//       catch (Exception e)
-//       {
-//       }
-//    }
+   public void actionPerformed(ActionEvent ae)
+   {
+      if(ae.getSource() == exitButton)
+      {
+         System.exit(1);
+      }
+      if(ae.getSource() == sendButton)
+      {
+         send.println(sendMsg.getText());
+         send.flush();
+         //recvMsg.setText(receive.readLine());           
+      }
+   }
    
    public static void main(String [] args)
    {

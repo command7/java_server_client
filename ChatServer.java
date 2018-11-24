@@ -3,7 +3,7 @@ import java.net.*;
 import java.util.*;
 public class ChatServer
 {
-   private Vector broadcaster = new Vector();
+   private Vector<PrintWriter> broadcaster = new Vector<PrintWriter>();
    public ChatServer()
    { 
       startServer();
@@ -39,22 +39,19 @@ public class ChatServer
          {
             BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
             PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
-            serverResponse.println("Hello");
-            serverResponse.flush();
-            // while(true)
-//             { 
-//                // String input = clientRequest.readLine();
-// //                System.out.println(input);
-//                serverResponse.println("Hello");
-//                if(input.equals("quit"))
-//                {
-//                   clientRequest.close();
-//                   serverResponse.close();
-//                   serverSocket.close();
-//                }
-//                serverResponse.flush();
-//                //serverSocket.close(); 
-//             }
+            while(true)
+            { 
+               String inputMessage = clientRequest.readLine();
+               if(inputMessage.equals("quit"))
+               {
+                  clientRequest.close();
+                  serverResponse.close();
+                  serverSocket.close();
+               }
+               serverResponse.println(inputMessage);
+               serverResponse.flush();
+               //serverSocket.close(); 
+            }
 
          }
          catch (Exception e) {
