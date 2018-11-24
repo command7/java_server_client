@@ -44,6 +44,8 @@ public class ChatServer
                
                String inputCommand = clientRequest.readLine();
                System.out.println(inputCommand);
+               serverResponse.println("Received");
+               serverResponse.flush();
                clientRequest.close();
                serverResponse.close();
                serverSocket.close(); 
@@ -57,5 +59,6 @@ public class ChatServer
    
    public static void main(String [] args)
    {
+      ChatServer test = new ChatServer();
    }
 }
