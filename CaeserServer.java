@@ -1,11 +1,11 @@
 import java.io.*;
 import java.net.*;
-public class CeaserServer implements CaesarConstants
+public class CaeserServer implements CaesarConstants
 {
    String [] alphabets = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
    private int shiftKey;
    private ServerSocket server;
-   public CeaserServer(int _shiftKey)
+   public CaeserServer(int _shiftKey)
    {
       this.shiftKey = _shiftKey;
       startServer();
@@ -181,14 +181,14 @@ public class CeaserServer implements CaesarConstants
       {
          if(args.length == 0)
          {
-            CeaserServer test = new CeaserServer(DEFAULT_SHIFT);
+            CaeserServer test = new CaeserServer(DEFAULT_SHIFT);
          }
          else 
          {
             int key = Integer.parseInt(args[0]);
             if(key > 0 && key < 26)
             {
-               CeaserServer test = new CeaserServer(key);
+               CaeserServer test = new CaeserServer(key);
             }
             else
             {
