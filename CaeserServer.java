@@ -151,10 +151,11 @@ public class CaeserServer implements CaesarConstants
    }//end of decryptText()
    
    /**
-   *  Creates a thread that handles a connection with a client by responding with
-   *  encrypted or decrypted text based on the input command.
+   *  Purpose: Creates a thread that handles a connection with a client by responding with
+   *           encrypted or decrypted text based on the input command.
+   *  Date: November 25, 2018
    */
-   public class ServerThread extends Thread
+   protected class ServerThread extends Thread
    {
       /** Socket at which a client is connected */
       private Socket serverSocket;
