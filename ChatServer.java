@@ -1,3 +1,15 @@
+/**
+*Purpose:   This program is used to initiate a server that can accept multiple lines of text,
+*           encrypt/decrypt the text and send it back. It listens at port 16789
+*           type of car and whether towing package is included and stores it. <br/>
+*                                                            <br/>
+*Caveats:   It uses Vehicle class to accept inputs. <br/>
+*Date:      September 23, 2018
+*@author    Vijay Raj Saravanan Radhakrishnan
+*@version   1.1
+*/
+
+
 import java.io.*;
 import java.net.*;
 import java.util.*;
