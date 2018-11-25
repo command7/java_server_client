@@ -11,7 +11,7 @@
 */
 import java.io.*;
 import java.net.*;
-public class CaeserServer implements CaesarConstants
+public class CaesarServer implements CaesarConstants
 {
    /** Contains all the alphabets in order */
    private final String [] ALPHABETS = {"a","b","c","d","e","f","g",
@@ -25,7 +25,7 @@ public class CaeserServer implements CaesarConstants
 *  Constructor takes in the shift key and assigns it to variable
 *  @param _shiftKey Number of characters to be shifted
 */
-   public CaeserServer(int _shiftKey)
+   public CaesarServer(int _shiftKey)
    {
       this.shiftKey = _shiftKey;
       startServer();
@@ -40,13 +40,17 @@ public class CaeserServer implements CaesarConstants
       try
       {
          server = new ServerSocket(PORT_NUMBER);
+         System.out.println("Server listening in port " + PORT_NUMBER);
          while(true)
          {
             Socket serverSocket = server.accept();
             new ServerThread(serverSocket).start();
          }
       }
-      catch (Exception ex) {}
+      catch (BindException ex) {
+      System.out.println("Another instance of server running.");}
+      catch (IOException io) {
+      System.out.println("IO Exception");}
    }//end of startServer()
 
 /**
@@ -234,14 +238,14 @@ public class CaeserServer implements CaesarConstants
       {
          if(args.length == 0)
          {
-            CaeserServer test = new CaeserServer(DEFAULT_SHIFT);
+            CaesarServer test = new CaesarServer(DEFAULT_SHIFT);
          }
          else 
          {
             int key = Integer.parseInt(args[0]);
             if(key > 0 && key < 26)
             {
-               CaeserServer test = new CaeserServer(key);
+               CaesarServer test = new CaesarServer(key);
             }
             else
             {
@@ -254,4 +258,4 @@ public class CaeserServer implements CaesarConstants
          System.out.println("Enter a number between 1 and 25");
       }
    }//end of main class
-}//end of class CaeserServer
+}//end of class CaesarServer
