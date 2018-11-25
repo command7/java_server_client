@@ -28,7 +28,7 @@ import javax.swing.border.*;
 	 Modified: Michael Floeser
 */
 
-public class CaesarClient extends JFrame {
+public class CaesarClient extends JFrame implements CaesarConstants{
 	private JTextArea jtaSendText;
 	private JTextArea jtaRecvText;
 	private JPanel 	jpTextPanel;

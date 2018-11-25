@@ -1,6 +1,6 @@
 import java.io.*;
 import java.net.*;
-public class CeaserServer
+public class CeaserServer implements CaesarConstants
 {
    String [] alphabets = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
    private int shiftKey;
@@ -15,7 +15,7 @@ public class CeaserServer
    {
       try
       {
-         server = new ServerSocket(16789);
+         server = new ServerSocket(PORT_NUMBER);
          while(true)
          {
             Socket serverSocket = server.accept();
@@ -181,7 +181,7 @@ public class CeaserServer
       {
          if(args.length == 0)
          {
-            CeaserServer test = new CeaserServer(3);
+            CeaserServer test = new CeaserServer(DEFAULT_SHIFT);
          }
          else 
          {
