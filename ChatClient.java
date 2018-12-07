@@ -131,6 +131,7 @@ public class ChatClient extends JFrame implements ActionListener
             {
                String input = reader.readLine();
                recvBlock.append(input + "\n");
+               recvBlock.setCaretPosition(recvBlock.getDocument().getLength());
             }
             catch(Exception e) {
             System.out.println("Reading Exception");}
