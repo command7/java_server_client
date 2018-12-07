@@ -50,6 +50,7 @@ public class ChatClient extends JFrame implements ActionListener
       
       recvBlock = new JTextArea("",10,50);
       recvBlock.setBorder(new EtchedBorder());
+      recvBlock.setEditable(false);
       sendBlock = new JTextArea("",10,50);
       sendBlock.setBorder(new EtchedBorder());
       JScrollPane recvMsg = new JScrollPane(recvBlock);
