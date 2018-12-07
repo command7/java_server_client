@@ -160,7 +160,8 @@ public class ChatClient extends JFrame implements ActionListener
          try {
             send.println(sendBlock.getText());
             sendBlock.setText("");
-            send.flush();      
+            send.flush();
+            sendBlock.requestFocus();      
          }   
          catch (Exception e) {
             System.out.println("Unable to connect to server");
