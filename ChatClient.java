@@ -28,12 +28,14 @@ public class ChatClient extends JFrame implements ActionListener
    private JButton sendButton;
    /** Button used to exit the chatroom */
    private JButton exitButton;
+   private String serverAddress;
    
 /**
 *  Creates the GUI of chat room and starts listening for input from the server
 */
-   public ChatClient()
+   public ChatClient(String _serverAddress)
    {
+      this.serverAddress = _serverAddress;
       createGUI();
       startReceiver();
    }
@@ -83,7 +85,7 @@ public class ChatClient extends JFrame implements ActionListener
    {
       try
       {
-         Socket s = new Socket("localhost", 16789);
+         Socket s = new Socket(serverAddress, 16789);
          receive = new BufferedReader(new InputStreamReader(s.getInputStream()));
          send = new PrintWriter(s.getOutputStream());
          Receiver recv = new Receiver(receive);
@@ -159,6 +161,12 @@ public class ChatClient extends JFrame implements ActionListener
 */
    public static void main(String [] args)
    {
-      ChatClient test = new ChatClient();
+      if (args.length == 1) {
+         ChatClient test = new ChatClient(args[0]);
+      }
+      else {
+         System.out.println("No server address provided. Hence, routing to localhost server");
+         ChatClient test = new ChatClient("localhost");
+      }
    }
 }
