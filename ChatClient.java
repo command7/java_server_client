@@ -29,6 +29,7 @@ public class ChatClient extends JFrame implements ActionListener
    /** Button used to exit the chatroom */
    private JButton exitButton;
    private String serverAddress;
+   private boolean connected = false;
    
 /**
 *  Creates the GUI of chat room and starts listening for input from the server
@@ -49,7 +50,7 @@ public class ChatClient extends JFrame implements ActionListener
       
       recvBlock = new JTextArea("",10,50);
       recvBlock.setBorder(new EtchedBorder());
-      sendBlock = new JTextArea("Type message to send",10,50);
+      sendBlock = new JTextArea("",10,50);
       sendBlock.setBorder(new EtchedBorder());
       JScrollPane recvMsg = new JScrollPane(recvBlock);
       JScrollPane sendMsg = new JScrollPane(sendBlock);
@@ -86,10 +87,15 @@ public class ChatClient extends JFrame implements ActionListener
       try
       {
          Socket s = new Socket(serverAddress, 16789);
+         connected = true;
          receive = new BufferedReader(new InputStreamReader(s.getInputStream()));
          send = new PrintWriter(s.getOutputStream());
          Receiver recv = new Receiver(receive);
          recv.start();
+      }
+      catch (IOException io) {
+         recvBlock.append("Unable to connect to server\n");
+         System.out.println("Unable to connect to server");
       }
       catch (Exception e)
       {
@@ -149,9 +155,15 @@ public class ChatClient extends JFrame implements ActionListener
       }
       if(ae.getSource() == sendButton)
       {
-         send.println(sendBlock.getText());
-         sendBlock.setText("");
-         send.flush();         
+         try {
+            send.println(sendBlock.getText());
+            sendBlock.setText("");
+            send.flush();      
+         }   
+         catch (Exception e) {
+            System.out.println("Unable to connect to server");
+            recvBlock.append("Unable to connect to server\n");
+         }
       }
    }
    
