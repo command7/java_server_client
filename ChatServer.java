@@ -35,7 +35,8 @@ public class ChatServer
          while(true)
          {
             Socket serverSocket = server.accept();
-            System.out.println("Client IP Address : " + serverSocket.getInetAddress());
+            
+            System.out.println("Client " + serverSocket.getInetAddress() + " connected");
             new ServerThread(serverSocket).start();
          }
       }
@@ -91,11 +92,15 @@ public class ChatServer
             BufferedReader clientRequest = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
             PrintWriter serverResponse = new PrintWriter(new OutputStreamWriter(serverSocket.getOutputStream()));
             broadcaster.add(serverResponse);
+            serverResponse.println("Welcome to chat screen");
+            serverResponse.flush();
             while(true)
             { 
                String message = clientRequest.readLine();
                if(message.equals("quit"))
                {
+                  message = serverSocket.getInetAddress() + " has disconnected.";
+                  broadcastMessages(message);
                   clientRequest.close();
                   serverResponse.close();
                   serverSocket.close();
@@ -103,6 +108,9 @@ public class ChatServer
                }
                broadcastMessages(message);
             }
+            System.out.println("Client " + serverSocket.getInetAddress() + " disconnected");
+         }
+         catch (NullPointerException npe) {
             System.out.println("Client " + serverSocket.getInetAddress() + " disconnected");
          }
          catch (Exception e) {
