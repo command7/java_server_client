@@ -3,7 +3,7 @@
 *           Text that the client sends is sent to all other participants of the chat
 *           At the same time, messages from other clients are received and displayed.
 *                                                                 <br/>
-*Date:      November 25, 2018
+*Date:      December 10, 2018
 *@author    Vijay Raj Saravanan Radhakrishnan
 *@version   1.1
 */
@@ -33,6 +33,7 @@ public class ChatClient extends JFrame implements ActionListener
    
 /**
 *  Creates the GUI of chat room and starts listening for input from the server
+*  @param _serverAddress IP address of the server
 */
    public ChatClient(String _serverAddress)
    {
@@ -72,12 +73,18 @@ public class ChatClient extends JFrame implements ActionListener
       exitButton.addActionListener(this);
       this.add(buttons, BorderLayout.SOUTH);
       
+      JMenuBar menuBar = new JMenuBar();
+      JMenu fileMenu = new JMenu("File");
+      JMenuItem exitMenu = new JMenuItem("Exit");
+      fileMenu.add(exitMenu);
+      menuBar.add(fileMenu);
+      this.add(menuBar, BorderLayout.NORTH);
+      
       this.setTitle("Chat screen");
       this.setSize(600,400);
       this.setLocationRelativeTo(null);
       this.setVisible(true);
       
-      //Receiver incomingMsgs = new Receiver();
    }
 
 /**
@@ -114,6 +121,7 @@ public class ChatClient extends JFrame implements ActionListener
       
    /**
    *  Assigns the BufferedReader to private variable
+   *  @param _reader BufferedReader
    */
       public Receiver(BufferedReader _reader)
       {
@@ -130,6 +138,11 @@ public class ChatClient extends JFrame implements ActionListener
             try
             {
                String input = reader.readLine();
+               if(input == null) {
+                  System.out.println("Lost connection to server");
+                  recvBlock.append("Lost connection to server\n");
+                  break;
+               }
                recvBlock.append(input + "\n");
                recvBlock.setCaretPosition(recvBlock.getDocument().getLength());
             }

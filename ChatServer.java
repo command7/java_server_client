@@ -2,7 +2,7 @@
 *Purpose:   This program is used to initiate a server that can receives messages from a client
 *           and broadcasts to all clients. It acts as a chat server.
 *                                                                  <br/>
-*Date:      November 25, 2018
+*Date:      December 10, 2018
 *@author    Vijay Raj Saravanan Radhakrishnan
 *@version   1.1
 */
@@ -99,8 +99,8 @@ public class ChatServer
                String message = clientRequest.readLine();
                if(message.equals("quit"))
                {
-                  message = serverSocket.getInetAddress() + " has disconnected.";
-                  broadcastMessages(message);
+//                   message = serverSocket.getInetAddress() + " has disconnected.";
+//                   broadcastMessages(message);
                   clientRequest.close();
                   serverResponse.close();
                   serverSocket.close();
