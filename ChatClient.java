@@ -85,7 +85,8 @@ public class ChatClient extends JFrame implements ActionListener
       this.setTitle("Chat screen");
       this.setSize(600,400);
       this.setLocationRelativeTo(null);
-      this.setVisible(true); 
+      this.setVisible(true);
+      this.setDefaultCloseOperation(this.EXIT_ON_CLOSE);
    }
 
 /**
