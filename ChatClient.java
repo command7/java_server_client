@@ -30,6 +30,7 @@ public class ChatClient extends JFrame implements ActionListener
    private JButton exitButton;
    private String serverAddress;
    private boolean connected = false;
+   private JMenuItem exitMenu;
    
 /**
 *  Creates the GUI of chat room and starts listening for input from the server
@@ -75,16 +76,16 @@ public class ChatClient extends JFrame implements ActionListener
       
       JMenuBar menuBar = new JMenuBar();
       JMenu fileMenu = new JMenu("File");
-      JMenuItem exitMenu = new JMenuItem("Exit");
+      exitMenu = new JMenuItem("Exit");
       fileMenu.add(exitMenu);
       menuBar.add(fileMenu);
+      exitMenu.addActionListener(this);
       this.add(menuBar, BorderLayout.NORTH);
       
       this.setTitle("Chat screen");
       this.setSize(600,400);
       this.setLocationRelativeTo(null);
-      this.setVisible(true);
-      
+      this.setVisible(true); 
    }
 
 /**
@@ -179,6 +180,17 @@ public class ChatClient extends JFrame implements ActionListener
          catch (Exception e) {
             System.out.println("Unable to connect to server");
             recvBlock.append("Unable to connect to server\n");
+         }
+      }
+      if(ae.getSource() == exitMenu) 
+      {
+         try {
+            send.println("quit");
+            send.flush();
+         }
+         catch (Exception e) {}
+         finally {
+            System.exit(1);
          }
       }
    }
