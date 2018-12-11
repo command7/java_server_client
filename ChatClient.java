@@ -28,8 +28,11 @@ public class ChatClient extends JFrame implements ActionListener
    private JButton sendButton;
    /** Button used to exit the chatroom */
    private JButton exitButton;
+   /** Address of the server */
    private String serverAddress;
+   /** If connected to server */
    private boolean connected = false;
+   /** Menu item used to exit GUI */
    private JMenuItem exitMenu;
    
 /**
